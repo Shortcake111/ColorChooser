@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ColorChooser</string>
+    <string name="red">Rood</string>
+    <string name="green">Groen</string>
+    <string name="blue">Blauw</string>
+    <string name="hex">HEX formaat</string>
+</resources>
