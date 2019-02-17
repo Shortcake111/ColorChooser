@@ -8,14 +8,14 @@ import android.widget.EditText
 import android.widget.SeekBar
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var rSb:SeekBar
-    private lateinit var gSb:SeekBar
-    private lateinit var bSb:SeekBar
-    private lateinit var rEt:EditText
-    private lateinit var gEt:EditText
-    private lateinit var bEt:EditText
-    private lateinit var hexEt:EditText
-    private lateinit var colorV:View
+    private lateinit var redSb: SeekBar
+    private lateinit var greenSb: SeekBar
+    private lateinit var blueSb: SeekBar
+    private lateinit var redEt: EditText
+    private lateinit var greenEt: EditText
+    private lateinit var blueEt: EditText
+    private lateinit var hexEt: EditText
+    private lateinit var colorV: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,30 +25,47 @@ class MainActivity : AppCompatActivity() {
         addEventListeners()
     }
 
-    private fun initializeViews(){
-        rSb = findViewById(R.id.rSeekBar)
-        gSb = findViewById(R.id.gSeekBar)
-        bSb = findViewById(R.id.bSeekBar)
-        rEt = findViewById(R.id.rEditText)
-        gEt = findViewById(R.id.gEditText)
-        bEt = findViewById(R.id.bEditText)
+    private fun initializeViews() {
+        redSb = findViewById(R.id.rSeekBar)
+        greenSb = findViewById(R.id.gSeekBar)
+        blueSb = findViewById(R.id.bSeekBar)
+        redEt = findViewById(R.id.rEditText)
+        greenEt = findViewById(R.id.gEditText)
+        blueEt = findViewById(R.id.bEditText)
         hexEt = findViewById(R.id.hexEditText)
         colorV = findViewById(R.id.colorView)
     }
 
-    private fun addEventListeners(){
-        val color:Int = Color.YELLOW
+    private fun updateColor(color: Int) {
         val red = Color.red(color)
         val green = Color.green(color)
         val blue = Color.blue(color)
 
-        rSb.progress = red
-        rEt.setText(red.toString())
-        gSb.progress = green
-        gEt.setText(green.toString())
-        bSb.progress = blue
-        bEt.setText(blue.toString())
+        redSb.progress = red
+        greenSb.progress = green
+        blueSb.progress = blue
+
+        redEt.setText(red.toString())
+        greenEt.setText(green.toString())
+        blueEt.setText(blue.toString())
+
         hexEt.setText(String.format("%06X", Color.argb(0, red, green, blue)))
         colorV.setBackgroundColor(color)
+    }
+
+    private fun addEventListeners() {
+        val seekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, newValue: Int, userChanged: Boolean) {
+                if (userChanged) {
+                    updateColor(Color.rgb(redSb.progress, greenSb.progress, blueSb.progress))
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+        }
+
+        redSb.setOnSeekBarChangeListener(seekBarChangeListener)
+        greenSb.setOnSeekBarChangeListener(seekBarChangeListener)
+        blueSb.setOnSeekBarChangeListener(seekBarChangeListener)
     }
 }
